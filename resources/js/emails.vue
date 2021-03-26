@@ -65,18 +65,13 @@
             <nav aria-label="Page navigation">
                 <ul class="pagination">
                     <li>
-                        <a href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
+                        <a :href="pagination.prev_page_url" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>Previous
                         </a>
                     </li>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
                     <li>
-                        <a href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
+                        <a :href="pagination.next_page_url" aria-label="Next">
+                            Next <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
                 </ul>
@@ -101,25 +96,30 @@
                 .then(response => {
                     this.emails = response.data.data.data;
                     this.pagination = {
-                        'current_page': response.data.current_page,
-                        'last_page': response.data.last_page,
-                        'per_page': response.data.per_page,
-                        'total': response.data.total,
+                        'current_page': response.data.data.current_page,
+                        'last_page': response.data.data.last_page,
+                        'per_page': response.data.data.per_page,
+                        'total': response.data.data.total,
+                        'next_page_url': response.data.data.next_page_url,
+                        'prev_page_url': response.data.data.prev_page_url,
                     }
-                    console.log('data', response.data.data.data)
+                    console.log('pagination', this.pagination)
                 });
         },
         watch: {
             term: function (searchterm) {
+                this.emails = []
                 this.axios
                 .get('http://localhost:8000/api/emails?condition='+this.condition+'&term='+searchterm)
                 .then(response => {
                     this.emails = response.data.data.data;
                     this.pagination = {
-                        'current_page': response.data.current_page,
-                        'last_page': response.data.last_page,
-                        'per_page': response.data.per_page,
-                        'total': response.data.total,
+                        'current_page': response.data.data.current_page,
+                        'last_page': response.data.data.last_page,
+                        'per_page': response.data.data.per_page,
+                        'total': response.data.data.total,
+                        'next_page_url': response.data.data.next_page_url,
+                        'prev_page_url': response.data.data.prev_page_url,
                     }
                     console.log('data', response.data.data.data)
                 });
