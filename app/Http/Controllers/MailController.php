@@ -13,9 +13,10 @@ class MailController extends Controller
         $condition = $request->condition;
         $term = $request->term;
         $emails = AppMail::with('status')
-        ->when($condition !=null && $term != null, function($query, $condition,$term){
-            return $query->where($condition,$term);
-          })
+        ->when($term, function($query, $term) use($condition){
+            return $query->where($condition,'like', '%'.$term.'%');
+        })
+        
         ->latest()
         ->paginate(10);
         return response([
