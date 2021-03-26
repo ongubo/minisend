@@ -12,5 +12,3 @@ use Illuminate\Support\Facades\Route;
 Route::get('/emails', 'MailController@index');
 Route::post('/emails/store', 'MailController@store');
 Route::get('/emails/{id?}', 'MailController@show');
-// Route::post('/emails/update/{id?}', 'MailController@update');
-// Route::delete('/emails/{id?}', 'MailController@destroy');

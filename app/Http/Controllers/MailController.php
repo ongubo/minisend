@@ -46,9 +46,10 @@ class MailController extends Controller
             $mail->subject = $request->subject;
             $mail->text_content = $request->text_content;
             $mail->html_content = $request->html_content;
+            $mail->status_id = 1;
             $mail->save();
 
-            if ($post) {
+            if ($mail) {
                 return response()->json([
                     'success' => true,
                     'message' => 'Email Saved Succesfully',
