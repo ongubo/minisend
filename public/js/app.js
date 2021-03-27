@@ -2060,11 +2060,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2080,25 +2075,30 @@ __webpack_require__.r(__webpack_exports__);
     this.axios.get('http://localhost:8000/api/emails').then(function (response) {
       _this.emails = response.data.data.data;
       _this.pagination = {
-        'current_page': response.data.current_page,
-        'last_page': response.data.last_page,
-        'per_page': response.data.per_page,
-        'total': response.data.total
+        'current_page': response.data.data.current_page,
+        'last_page': response.data.data.last_page,
+        'per_page': response.data.data.per_page,
+        'total': response.data.data.total,
+        'next_page_url': response.data.data.next_page_url,
+        'prev_page_url': response.data.data.prev_page_url
       };
-      console.log('data', response.data.data.data);
+      console.log('pagination', _this.pagination);
     });
   },
   watch: {
     term: function term(searchterm) {
       var _this2 = this;
 
+      this.emails = [];
       this.axios.get('http://localhost:8000/api/emails?condition=' + this.condition + '&term=' + searchterm).then(function (response) {
         _this2.emails = response.data.data.data;
         _this2.pagination = {
-          'current_page': response.data.current_page,
-          'last_page': response.data.last_page,
-          'per_page': response.data.per_page,
-          'total': response.data.total
+          'current_page': response.data.data.current_page,
+          'last_page': response.data.data.last_page,
+          'per_page': response.data.data.per_page,
+          'total': response.data.data.total,
+          'next_page_url': response.data.data.next_page_url,
+          'prev_page_url': response.data.data.prev_page_url
         };
         console.log('data', response.data.data.data);
       });
@@ -41670,7 +41670,43 @@ var render = function() {
       )
     ]),
     _vm._v(" "),
-    _vm._m(4)
+    _c("div", { staticClass: "col-sm-12 text-center" }, [
+      _c("nav", { attrs: { "aria-label": "Page navigation" } }, [
+        _c("ul", { staticClass: "pagination" }, [
+          _c("li", [
+            _c(
+              "a",
+              {
+                attrs: {
+                  href: _vm.pagination.prev_page_url,
+                  "aria-label": "Previous"
+                }
+              },
+              [
+                _c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("«")]),
+                _vm._v("Previous\n                    ")
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("li", [
+            _c(
+              "a",
+              {
+                attrs: {
+                  href: _vm.pagination.next_page_url,
+                  "aria-label": "Next"
+                }
+              },
+              [
+                _vm._v("\n                        Next "),
+                _c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("»")])
+              ]
+            )
+          ])
+        ])
+      ])
+    ])
   ])
 }
 var staticRenderFns = [
@@ -41715,38 +41751,6 @@ var staticRenderFns = [
         _c("th", [_vm._v("Created At")]),
         _vm._v(" "),
         _c("th", [_vm._v("Actions")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-sm-12 text-center" }, [
-      _c("nav", { attrs: { "aria-label": "Page navigation" } }, [
-        _c("ul", { staticClass: "pagination" }, [
-          _c("li", [
-            _c("a", { attrs: { href: "#", "aria-label": "Previous" } }, [
-              _c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("«")])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("li", [_c("a", { attrs: { href: "#" } }, [_vm._v("1")])]),
-          _vm._v(" "),
-          _c("li", [_c("a", { attrs: { href: "#" } }, [_vm._v("2")])]),
-          _vm._v(" "),
-          _c("li", [_c("a", { attrs: { href: "#" } }, [_vm._v("3")])]),
-          _vm._v(" "),
-          _c("li", [_c("a", { attrs: { href: "#" } }, [_vm._v("4")])]),
-          _vm._v(" "),
-          _c("li", [_c("a", { attrs: { href: "#" } }, [_vm._v("5")])]),
-          _vm._v(" "),
-          _c("li", [
-            _c("a", { attrs: { href: "#", "aria-label": "Next" } }, [
-              _c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("»")])
-            ])
-          ])
-        ])
       ])
     ])
   }
