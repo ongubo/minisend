@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'Minisend'),
 
     /*
     |--------------------------------------------------------------------------
@@ -27,6 +27,10 @@ return [
     */
 
     'env' => env('APP_ENV', 'production'),
+
+
+    // set external folder to store mail attachments
+    'external_folder' => env('EXTERNAL_FOLDER','/home/ralph/workspace/app_files/'),
 
     /*
     |--------------------------------------------------------------------------
