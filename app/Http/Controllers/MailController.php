@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\models\Mail as AppMail;
+use App\Mail\UserEmail;
 use Illuminate\Http\Request;
 use Validator;
+use Mail;
+use DB;
 
 class MailController extends Controller
 {
@@ -47,6 +50,33 @@ class MailController extends Controller
             $mail->text_content = $request->text_content;
             $mail->html_content = $request->html_content;
             $mail->status_id = 1;
+            $mail->save();
+
+            // save attachment if available
+            $file_name = 'attachment';
+            if ($request->hasFile($file_name) && $request->file($file_name)->isValid()) {
+                $file = $request->file_name;
+                $timestamp = str_replace([' ', ':'], '-', date("Ymd"));
+                $name = $timestamp .'_'. $request->file($file_name)->getClientOriginalName();
+                $request->file($file_name)->move(config('app.external_folder') . '/files/', $name);
+                DB::table('attachments')->insert(
+                    [
+                        'url' => config('app.external_folder') .'/files/'. $name,
+                        'mail_id' => $mail->id,
+                    ]
+                );
+                // send attachment mails
+                Mail::to(new UserEmail($mail), $mail, function($message)use($mail) {
+                    $message->to($email["to"])->subject($email["subject"]);
+                    $message->attach(config('app.external_folder') .'/files/'. $name);
+                });
+            }else{
+                // Send emails without attachments
+                Mail::to($mail->to)->queue(new UserEmail($mail));
+            }
+
+            // Update mail status
+            $mail->status_id = 2;
             $mail->save();
 
             if ($mail) {
