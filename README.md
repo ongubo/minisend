@@ -29,6 +29,13 @@ php artisan serve
 npm run watch
 ```
 
+## API Tests
+
+* Run tests using PHP unit or artisan
+```bash
+php artisan test
+```
+
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
