@@ -63,20 +63,7 @@
             </table>
         </div>
         <div class="col-sm-12 text-center">
-            <nav aria-label="Page navigation">
-                <ul class="pagination">
-                    <li>
-                        <a :href="pagination.prev_page_url" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>Previous
-                        </a>
-                    </li>
-                    <li>
-                        <a :href="pagination.next_page_url" aria-label="Next">
-                            Next <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+           <pagination :data="response.data" @pagination-change-page="fetchEmails"></pagination>
         </div>
     </div>
 </template>
@@ -86,16 +73,23 @@
         data() {
             return {
                 emails: [],
-                pagination: null,
+                pagination: {total:0},
                 term: '',
                 condition: 'from',
+                response: {data:null},
             }
         },
         created() {
-            this.axios
-                .get('http://localhost:8000/api/emails')
+           this.fetchEmails();
+        },
+        methods: {
+            // Our method to GET results from a Laravel endpoint
+            fetchEmails(page = 1) {
+                this.axios
+                .get('http://localhost:8000/api/emails?page=' + page)
                 .then(response => {
                     this.emails = response.data.data.data;
+                    this.response = response.data
                     this.pagination = {
                         'current_page': response.data.data.current_page,
                         'last_page': response.data.data.last_page,
@@ -106,6 +100,7 @@
                     }
                     console.log('pagination', this.pagination)
                 });
+            }
         },
         watch: {
             term: function (searchterm) {
@@ -114,6 +109,7 @@
                 .get('http://localhost:8000/api/emails?condition='+this.condition+'&term='+searchterm)
                 .then(response => {
                     this.emails = response.data.data.data;
+                    this.response = response.data
                     this.pagination = {
                         'current_page': response.data.data.current_page,
                         'last_page': response.data.data.last_page,
