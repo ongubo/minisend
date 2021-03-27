@@ -10,6 +10,7 @@
             </ol>
         </div>
         <div class="col-sm-12">
+            <strong>{{pagination.total}}</strong> emails found
             <form class="navbar-form navbar-right" role="form">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
